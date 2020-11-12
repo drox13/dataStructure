@@ -1,16 +1,43 @@
 package test.doubleList;
 
+import java.util.Comparator;
+
 import doubleList.MyDoubleLinkedList;
+import test.model.Person;
 
 public class TestDoubleLinkendList {
 	
 	public static void main(String[] args) {
-		testWihtInt();
-		testWithString();
+//		testWihtInt();
+//		testWithString();
+		testWithClass();
+	}
+
+	private static void testWithClass() {
+		MyDoubleLinkedList<Person> myDoubleLinkedList = new MyDoubleLinkedList<>(new Comparator<Person>() {
+
+			@Override
+			public int compare(Person o1, Person o2) {
+				return o1.getId()-o2.getId();
+			}
+		});
+		System.out.println("la lista esta: " + ((myDoubleLinkedList.isEmpty())?"vacia":"con datos"));
+		myDoubleLinkedList.addToTail(new Person(1,"jo"));
+		myDoubleLinkedList.addToTail(new Person(2,"lo"));
+		System.out.println("el dato existe?:" + myDoubleLinkedList.isExist(new Person(1,"lo")));
+		System.out.println(myDoubleLinkedList.showListByHead());
+		System.out.println(myDoubleLinkedList.showListByTail());
+
 	}
 
 	private static void testWithString() {
-		MyDoubleLinkedList<String> myDoubleLinkedList = new MyDoubleLinkedList<>();
+		MyDoubleLinkedList<String> myDoubleLinkedList = new MyDoubleLinkedList<>(new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+		});
 		System.out.println("la lista esta: " + ((myDoubleLinkedList.isEmpty())?"vacia":"con datos"));
 		myDoubleLinkedList.addAfter("d", "dario");
 		myDoubleLinkedList.addToHead("cabeza");
@@ -24,11 +51,17 @@ public class TestDoubleLinkendList {
 		myDoubleLinkedList.remove("cola");
 		myDoubleLinkedList.showListByHead();
 		myDoubleLinkedList.showListByTail();
-		System.out.println("tamaño: " + myDoubleLinkedList.sizeList() );
+		System.out.println("tamaï¿½o: " + myDoubleLinkedList.sizeList() );
 	}
 
 	private static void testWihtInt() {
-		MyDoubleLinkedList<Integer> myDoubleLinkedList = new MyDoubleLinkedList<>();
+		MyDoubleLinkedList<Integer> myDoubleLinkedList = new MyDoubleLinkedList<>(new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o1-o2;
+			}
+		});
 		System.out.println("la lista esta: " + ((myDoubleLinkedList.isEmpty())?"vacia":"con datos"));
 		myDoubleLinkedList.addToHead(10);
 		myDoubleLinkedList.addToHead(30);
@@ -58,6 +91,6 @@ public class TestDoubleLinkendList {
 		System.out.println("el dato existe?:" + myDoubleLinkedList.isExist(100));
 		myDoubleLinkedList.showListByHead();
 		myDoubleLinkedList.showListByTail();
-		System.out.println("el tamaño de la lista es: " + myDoubleLinkedList.sizeList());
+		System.out.println("el tamaï¿½o de la lista es: " + myDoubleLinkedList.sizeList());
 	}
 }
