@@ -1,5 +1,7 @@
 package doubleList;
 
+import java.util.Comparator;
+
 import exception.MyException;
 
 /**
@@ -12,7 +14,16 @@ public class MyDoubleLinkedList <T>{
 	private static final String NO_DATA_FILD = "No se encontro la informacion";
 	private MyNodeDouble<T> head;
 	private MyNodeDouble<T> tail;
+	private Comparator<T> comparator;
 
+	/**
+	 * Metodo constructor
+	 * @param comparator por el cual se comparan los datos dentro de la lista
+	 */
+	public MyDoubleLinkedList(Comparator<T> comparator) {
+		this.comparator = comparator;
+	}
+	
 	/**
 	 * Permite comprobar si la lista esta vacia
 	 * @return true si esta vacia, de lo contrario false
@@ -23,7 +34,7 @@ public class MyDoubleLinkedList <T>{
 
 	/**
 	 * Permite agregar al inicio de la lista
-	 * @param info informacion que se dea añadir
+	 * @param info informacion que se dea aï¿½adir
 	 */
 	public void addToHead(T info){
 		if(head != null) {
@@ -60,8 +71,9 @@ public class MyDoubleLinkedList <T>{
 	 * de no existir cabeza, convierte esta informacion en la cabeza
 	 * @param reference informacion de referencia para agregar despues de esta
 	 * @param info informacion que se desea agregar
+	 * @throws MyException se produce cuando no se encuentra la informacion de referencia
 	 */
-	public void addAfter(T reference, T info) {
+	public void addAfter(T reference, T info)throws MyException {
 		if(head != null) {
 			MyNodeDouble<T> nodeReference = fildInfo(reference);
 			if(nodeReference != null) {
@@ -84,7 +96,7 @@ public class MyDoubleLinkedList <T>{
 	private MyNodeDouble<T> fildInfo(T info){
 		MyNodeDouble<T> existInfo = head;
 		while(existInfo != null) {
-			if (existInfo.info.equals(info)) {
+			if (comparator.compare(existInfo.info, info) == 0) {
 				return existInfo;
 			}
 			existInfo = existInfo.next;
@@ -122,9 +134,9 @@ public class MyDoubleLinkedList <T>{
 	 */
 	public void remove(T info) {
 		if(head != null) {
-			if(info.equals(head.info)) {
+			if(comparator.compare(head.info, info) == 0) {
 				removeToHead();
-			}else if(info.equals(tail.info)) {
+			}else if(comparator.compare(tail.info, info) == 0) {
 				removeToTail();
 			}else {
 				removeToMedium(info);
@@ -165,7 +177,7 @@ public class MyDoubleLinkedList <T>{
 	}
 
 	/**
-	 * Permite conocer el tamaño de la lista
+	 * Permite conocer el tamaï¿½o de la lista
 	 * @return el numero de datos en la lista
 	 */
 	public int sizeList() {
@@ -182,26 +194,28 @@ public class MyDoubleLinkedList <T>{
 	 * Permite visualizar la lista doblemente enlazada
 	 * iniciando desde la cabeza (orden)
 	 */
-	public void showListByHead() {
-		System.out.println("-- Lista en Order ---");
+	public String showListByHead() {
+		String list = "-- Lista en Order ---\n";
 		MyNodeDouble<T> iterator = head;
 		while(iterator != null) {
-			System.out.println("<-- " + iterator.info + " -->");
+			list += "<-- " + iterator.info + " -->\n";
 			iterator = iterator.next;
 		}
+		return list;
 	}
 
 	/**
 	 * Permite visualizar la lista doblemente enlazada
 	 * iniciando desde la cola (inversa)
 	 */
-	public void showListByTail() {
-		System.out.println("-- Lista invertida ---");
+	public String showListByTail() {
+		String list = "-- Lista invertida ---\n";
 		MyNodeDouble<T> iterator = tail;
 		while(iterator != null) {
-			System.out.println("<-- " + iterator.info + " -->");
+			list += "<-- " + iterator.info + " --> \n";
 			iterator = iterator.previus;
 		}
+		return list;
 	}
 
 	public MyNodeDouble<T> getHead() {
