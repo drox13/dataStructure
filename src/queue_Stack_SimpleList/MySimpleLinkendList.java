@@ -1,5 +1,7 @@
 package queue_Stack_SimpleList;
 
+import java.util.Comparator;
+
 import exception.MyException;
 
 /**
@@ -12,6 +14,11 @@ public class MySimpleLinkendList <T>{
 	private static final String NO_MORE_DATA = "No hay datos en la lista";
 	private static final String ERROR_MESSAGE_NO_DATA_FOUND = "No se encontro el dato";
 	private MyNode<T> head;
+	private Comparator<T> comparator;
+	
+	public MySimpleLinkendList(Comparator<T> comparator) {
+		this.comparator = comparator;
+	}
 
 	/**
 	 * nos permite ver si la lista esta vacia
@@ -75,7 +82,7 @@ public class MySimpleLinkendList <T>{
 	private MyNode<T> fildInfo(T info){
 		MyNode<T> cursor = head;
 		while(cursor != null) {
-			if(cursor.infoNode.equals(info)) {
+			if(comparator.compare(cursor.infoNode, info)	== 0) {
 				return cursor;
 			}else {
 				cursor = cursor.next;
@@ -91,7 +98,7 @@ public class MySimpleLinkendList <T>{
 	 */
 	public boolean isExist(T info) {
 		MyNode<T> exist = fildInfo(info);
-		if(exist != null && info.equals(fildInfo(info).infoNode)) {
+		if(exist != null && comparator.compare(info, exist.infoNode) == 0) {
 			return true;
 		}else {
 			return false;
@@ -99,8 +106,8 @@ public class MySimpleLinkendList <T>{
 	}
 
 	/**
-	 * permite optener el tamaño de la lista 
-	 * @return el tamaño de la lista
+	 * permite optener el tamaï¿½o de la lista 
+	 * @return el tamaï¿½o de la lista
 	 */
 	public int sizeList() {
 		int count = 0;
@@ -111,10 +118,23 @@ public class MySimpleLinkendList <T>{
 		}
 		return count;
 	}
+	
+	/**
+	 * Borra un dato de la lista
+	 * @param info dato a borrar
+	 */
+	public void deleat(T info) {
+		if(head != null && info != head.infoNode) {
+			deleatToInfo(info);
+		}else {
+			deleatToHead();
+		}
+	}
+	
 	/**
 	 * Borra el dato inicial de la lista
 	 */
-	public void deleatToHead() {
+	private void deleatToHead() {
 		if(head != null) {
 			head = head.next;
 		}
@@ -124,51 +144,37 @@ public class MySimpleLinkendList <T>{
 	 * Borra el dato que se ingres por parametro
 	 * @param info informacion que se desea borrar
 	 */
-	public void deleatToMedium(T info) {
+	private void deleatToInfo(T info) {
 		if(! info.equals(head.infoNode)) {
 			MyNode<T> cursor = head;
 			MyNode<T> previus = head;
-			MyNode<T> nodeAuxNext = cursor.next;
 			while(cursor != null) {
-				if(cursor.infoNode.equals(info)) {
-					previus.next = nodeAuxNext;
+				if(comparator.compare(cursor.infoNode, info) == 0) {
+					if(cursor.next != null) {
+						previus.next = cursor.next;
+					}else {
+						previus.next = null;
+					}
 					return;
 				}
 				previus = cursor;
 				cursor = cursor.next;
-				nodeAuxNext = cursor.next;
 			}			
-		}else if(info.equals(head.infoNode)){
-			deleatToHead();
-		}
-	}
-
-	/**
-	 * Borra el ultimo dato de la lista
-	 */
-	public void deleatToTail() {
-		MyNode<T> last = head;
-		MyNode<T> previus = head;
-		while(last.next != null){
-			previus = last;
-			last = last.next;
-		}
-		if(previus != last ) {
-			previus.next = null;
-		}else {
-			deleatToHead();			
 		}
 	}
 
 	/**
 	 * Permite visualizar la lista
+	 * @return retorna la lista
 	 */
-	public void showList() {
+	public String showList() {
+		String list = "";
 		MyNode<T> aux = head;
 		while(aux != null) {
-			System.out.println(aux.infoNode + "-->");
+			list += aux.infoNode + "---> ";
 			aux = aux.next;
 		}
+		return list;
 	}
 
 	/**
