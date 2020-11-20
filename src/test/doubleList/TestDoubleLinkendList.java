@@ -1,6 +1,7 @@
 package test.doubleList;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import doubleList.MyDoubleLinkedList;
 import test.model.Person;
@@ -8,8 +9,8 @@ import test.model.Person;
 public class TestDoubleLinkendList {
 	
 	public static void main(String[] args) {
-//		testWihtInt();
-//		testWithString();
+		testWihtInt();
+		testWithString();
 		testWithClass();
 	}
 
@@ -22,11 +23,28 @@ public class TestDoubleLinkendList {
 			}
 		});
 		System.out.println("la lista esta: " + ((myDoubleLinkedList.isEmpty())?"vacia":"con datos"));
-		myDoubleLinkedList.addToTail(new Person(1,"jo"));
-		myDoubleLinkedList.addToTail(new Person(2,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(4,"jo"));
+		myDoubleLinkedList.addByOrder(new Person(10,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(2,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(5,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(12,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(7,"lo"));
+		myDoubleLinkedList.addByOrder(new Person(6,"lo"));
 		System.out.println("el dato existe?:" + myDoubleLinkedList.isExist(new Person(1,"lo")));
-		System.out.println(myDoubleLinkedList.showListByHead());
-		System.out.println(myDoubleLinkedList.showListByTail());
+//		myDoubleLinkedList.remove(new Person(2, "no"));
+//		System.out.println(myDoubleLinkedList.showListByHead());
+//		System.out.println(myDoubleLinkedList.showListByTail());
+//		System.out.println(myDoubleLinkedList.getTail());
+//		
+		Iterator<Person> list = myDoubleLinkedList.iterator();
+		while(list.hasNext()) {
+			System.out.println(list.next());
+		}
+		
+		Iterator<Person> listInvers = myDoubleLinkedList.iteratorPrevious();
+		while(listInvers.hasNext()) {
+			System.out.println(listInvers.next());
+		}
 
 	}
 

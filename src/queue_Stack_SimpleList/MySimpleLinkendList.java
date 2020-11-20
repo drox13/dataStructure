@@ -1,6 +1,7 @@
 package queue_Stack_SimpleList;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import exception.MyException;
 
@@ -10,11 +11,15 @@ import exception.MyException;
  *
  * @param <T>
  */
-public class MySimpleLinkendList <T>{
+public class MySimpleLinkendList <T> implements Iterable<T>{
 	private static final String NO_MORE_DATA = "No hay datos en la lista";
 	private static final String ERROR_MESSAGE_NO_DATA_FOUND = "No se encontro el dato";
 	private MyNode<T> head;
 	private Comparator<T> comparator;
+	
+	public MySimpleLinkendList() {
+		this.head = null;
+	}
 	
 	public MySimpleLinkendList(Comparator<T> comparator) {
 		this.comparator = comparator;
@@ -195,5 +200,25 @@ public class MySimpleLinkendList <T>{
 
 	public MyNode<T> getHead() {
 		return head;
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new Iterator<T>() {
+			
+			private MyNode<T> actual = head;
+			
+			@Override
+			public boolean hasNext() {
+				return actual != null;
+			}
+
+			@Override
+			public T next() {
+				T info = actual.infoNode;
+				actual = actual.next;
+				return info;
+			}
+		};
 	}
 }

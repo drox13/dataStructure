@@ -1,6 +1,7 @@
 package doubleList;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import exception.MyException;
 
@@ -10,7 +11,7 @@ import exception.MyException;
  *
  * @param <T> tipo de dato de la lista doblemente elazada
  */
-public class MyDoubleLinkedList <T>{
+public class MyDoubleLinkedList <T> implements Iterable<T>{
 	private static final String NO_DATA_FILD = "No se encontro la informacion";
 	private MyNodeDouble<T> head;
 	private MyNodeDouble<T> tail;
@@ -86,6 +87,33 @@ public class MyDoubleLinkedList <T>{
 		}else {
 			head = tail = new MyNodeDouble<>(info);
 		}
+	}
+	
+	/**
+	 * Permite ir ordenando la lista (prioridad)
+	 * @param info informacion nueva
+	 */
+	public void addByOrder(T info) {
+		if(head != null){
+				if(comparator.compare(info, head.info) >= 0 ) { // informacion es mayor que la cabeza
+					MyNodeDouble<T> reference = head;
+					while(reference.next != null && comparator.compare(info, reference.next.info) >= 0){
+						reference = reference.next;
+					}
+					MyNodeDouble<T> newNode = new MyNodeDouble<>(info, reference.next, reference);
+					reference.next = newNode;
+					if(newNode.next != null) {
+						newNode.next.previus = newNode;
+					}else{
+						tail = newNode;
+					}
+				}else {
+					head = new MyNodeDouble<T>(info, head, null);
+					head.next.previus = head;
+				}
+				return;
+		}
+		head = tail = new MyNodeDouble<>(info, head, tail);
 	}
 
 	/**
@@ -224,5 +252,42 @@ public class MyDoubleLinkedList <T>{
 
 	public MyNodeDouble<T> getTail() {
 		return tail;
+	}
+	
+	@Override
+	public Iterator<T> iterator() {
+		return new Iterator<T>() {
+			private MyNodeDouble<T> node = head;
+			
+			@Override
+			public boolean hasNext() {
+				return node!=null;
+			}
+
+			@Override
+			public T next() {
+				T data= node.info;
+				this.node= node.next;
+				return data;
+			}
+		};
+	}
+
+	public Iterator<T> iteratorPrevious() {
+		return new Iterator<T>() {
+			private MyNodeDouble<T> node = tail;
+			
+			@Override
+			public boolean hasNext() {
+				return node!=null;
+			}
+
+			@Override
+			public T next() {
+				T data= node.info;
+				this.node= node.previus;
+				return data;
+			}
+		};
 	}
 }

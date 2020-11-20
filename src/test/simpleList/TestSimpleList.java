@@ -1,6 +1,7 @@
 package test.simpleList;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import queue_Stack_SimpleList.MySimpleLinkendList;
 import test.model.Person;
@@ -54,6 +55,12 @@ public class TestSimpleList {
 		System.out.println("el ultimo dato de la lista es: " + mySimpleList.getDatalast());
 		System.out.println("el tama�o de la lista es: " + mySimpleList.sizeList());
 		System.out.println(mySimpleList.showList());
+		
+		System.out.println("-------------");
+		Iterator<Integer> list = mySimpleList.iterator();
+		while(list.hasNext()) {
+			System.out.println(list.next());
+		}
 	}
 	
 	private static void testWhitClass() {
