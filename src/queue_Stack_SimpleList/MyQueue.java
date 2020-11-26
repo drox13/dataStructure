@@ -124,13 +124,16 @@ public class MyQueue <T>{
 
 	/**
 	 * Nos permite visulizar la cola
+	 * @return 
 	 */
-	public void showQueue() {
+	public String showQueue() {
+		String queue = "";
 		MyNode<T> aux = this.head;
 		while(aux != null) {
-			System.out.println(aux.infoNode);
+			queue += aux.infoNode + "<--";
 			aux = aux.next;
 		}
+		return queue;
 	}
 
 	public MyNode<T> getHead() {
