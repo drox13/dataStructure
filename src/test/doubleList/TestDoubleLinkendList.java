@@ -89,15 +89,17 @@ public class TestDoubleLinkendList {
 		myDoubleLinkedList.addToTail(40);
 		myDoubleLinkedList.addBefore(10, 80);
 		myDoubleLinkedList.addAfter(20, 100);
+		System.out.println(myDoubleLinkedList.showListByHead());
 		
-		myDoubleLinkedList.remove(70);
-		myDoubleLinkedList.remove(40);
-		myDoubleLinkedList.remove(0);
-		myDoubleLinkedList.remove(30);
-		myDoubleLinkedList.remove(80);
- 		myDoubleLinkedList.remove(10);
- 		myDoubleLinkedList.remove(100);
- 		myDoubleLinkedList.remove(20);
+		myDoubleLinkedList.removeToHead();
+		
+//		myDoubleLinkedList.remove(40);
+//		myDoubleLinkedList.remove(0);
+//		myDoubleLinkedList.remove(30);
+//		myDoubleLinkedList.remove(80);
+// 		myDoubleLinkedList.remove(10);
+// 		myDoubleLinkedList.remove(100);
+// 		myDoubleLinkedList.remove(20);
 		System.out.println("la cabeza es: " + myDoubleLinkedList.getHead());
 //		System.out.println("el anterior de cabeza es: " + myDoubleLinkedList.getHead().getPrevius());
 //		System.out.println("el siguiente de cabeza es: " + myDoubleLinkedList.getHead().getNext());
@@ -110,5 +112,17 @@ public class TestDoubleLinkendList {
 		myDoubleLinkedList.showListByHead();
 		myDoubleLinkedList.showListByTail();
 		System.out.println("el tama�o de la lista es: " + myDoubleLinkedList.sizeList());
+		
+		System.out.println("--probando el iterador---");
+		Iterator<Integer> iterator = myDoubleLinkedList.iterator();
+		while(iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
+		
+		System.out.println("--probando el iteradorPrevios---");
+		Iterator<Integer> iteratorPrevios = myDoubleLinkedList.iteratorPrevious();
+		while(iteratorPrevios.hasNext()) {
+			System.out.println(iteratorPrevios.next());
+		}
 	}
 }

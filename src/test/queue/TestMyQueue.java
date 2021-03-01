@@ -20,14 +20,14 @@ public class TestMyQueue {
 		myQueues.putToQueue(4);
 		myQueues.putToQueue(5);
 		myQueues.putToQueue(6);
-		System.out.println("el tamaño de la lista es: " + myQueues.sizeQueue());
+		System.out.println("el tamaño de la cola es: " + myQueues.sizeQueue());
 		
 		System.out.println("el dato desencolado es: " + myQueues.getToQueue());
-		System.out.println("el tamaño de la lista es: " + myQueues.sizeQueue());
+		System.out.println("el tamaño de la cola es: " + myQueues.sizeQueue());
 		
 		myQueues.addToHead(20);
 		System.out.println("la cabeza es: " + myQueues.getHead());
-		myQueues.showQueue();
+		System.out.println(myQueues.showQueue());
+		System.out.println(myQueues.peek());
 	}
-		
 }

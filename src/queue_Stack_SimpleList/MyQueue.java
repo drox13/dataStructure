@@ -5,9 +5,8 @@ import java.util.Comparator;
 import exception.MyException;
 
 /**
- * 
+ * Permite crear una Cola
  * @author Dario Baron
- *
  * @param <T> tipo de dato de la cola
  */
 public class MyQueue <T>{
@@ -48,7 +47,7 @@ public class MyQueue <T>{
 		}
 	}
 	/**
-	 * permite encolar teniendo en cuenta el orden ( prioridad)
+	 * permite encolar teniendo en cuenta el orden (prioridad)
 	 * @param info que se va a encolar
 	 */
 	private void addByOrder(T info) {
@@ -134,6 +133,18 @@ public class MyQueue <T>{
 			aux = aux.next;
 		}
 		return queue;
+	}
+	
+	/**
+	 * Obtiene el dato que sigue en la cola sin eliminarlo
+	 * @return
+	 * @throws MyException
+	 */
+	public T peek() throws MyException {
+		if(this.head != null) {
+			return head.infoNode;
+		}
+		throw new MyException(EXCEPTION_MESSAGE);
 	}
 
 	public MyNode<T> getHead() {

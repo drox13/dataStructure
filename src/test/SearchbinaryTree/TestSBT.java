@@ -1,9 +1,7 @@
 package test.SearchbinaryTree;
 
 import java.util.Comparator;
-
 import binaryTree.SearchBinaryTree;
-import queue_Stack_SimpleList.MySimpleLinkendList;
 
 public class TestSBT {
 
@@ -33,7 +31,7 @@ public class TestSBT {
 		SBT.add('E');
 		SBT.add('H');
 		SBT.deleat('j');
-		SBT.inOrder().showList();
+//		SBT.inOrder().showList();
 		SBT.preOrder().showList();
 		SBT.showTree();
 		System.out.println("profundidad " + SBT.depth('G') );
@@ -67,6 +65,8 @@ public class TestSBT {
 		search.add(15);
 		search.add(32);
 		
+		
+		
 //		search.add(20);
 //		search.add(10);
 //		search.add(30);
@@ -89,11 +89,16 @@ public class TestSBT {
 		System.out.println("es hoja? " + search.isLeaf(17));
 		System.out.println("la altura del arbol es: " + search.getHeightTree());
 		
-		MySimpleLinkendList<Integer> inOrderList = search.inOrder();
-		inOrderList.showList();
-		search.preOrder().showList();
-		search.posOrder().showList();
-		search.amplitudeTour().showList();
+		System.out.println();
+		System.out.print(search.inOrder().showList());
+		System.out.println(search.preOrder().showList());
+		System.out.println(search.posOrder().showList());
+		System.out.println(search.amplitudeTour().showList());
+		search.showTree();
+		System.out.println("--------------");
+		search.deleat(17);
+		search.deleat(30);
+		search.showTree();
 	}
 
 	private static void testComparator() {

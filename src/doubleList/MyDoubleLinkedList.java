@@ -174,7 +174,7 @@ public class MyDoubleLinkedList <T> implements Iterable<T>{
 	/**
 	 * Borra la cabeza de la lista
 	 */
-	private void removeToHead() {
+	public void removeToHead() {
 		if(head.next != null) {
 			head = head.next;
 			head.previus = null;			

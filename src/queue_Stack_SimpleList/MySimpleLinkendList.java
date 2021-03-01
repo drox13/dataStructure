@@ -87,7 +87,7 @@ public class MySimpleLinkendList <T> implements Iterable<T>{
 	private MyNode<T> fildInfo(T info){
 		MyNode<T> cursor = head;
 		while(cursor != null) {
-			if(comparator.compare(cursor.infoNode, info)	== 0) {
+			if(comparator.compare(cursor.infoNode, info) == 0) {
 				return cursor;
 			}else {
 				cursor = cursor.next;
@@ -139,7 +139,7 @@ public class MySimpleLinkendList <T> implements Iterable<T>{
 	/**
 	 * Borra el dato inicial de la lista
 	 */
-	private void deleatToHead() {
+	public void deleatToHead() {
 		if(head != null) {
 			head = head.next;
 		}

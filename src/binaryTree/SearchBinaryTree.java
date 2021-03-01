@@ -76,10 +76,10 @@ public class SearchBinaryTree <T>{
 	}
 
 	/**
-	 * Busca una unformacion dentro del arbol
+	 * Busca una informacion dentro del arbol
 	 * @param info Informacion que desea buscar
 	 * @return el Nodo que contiene dicha informacion
-	 * @throws se lanza cuando no encuentra la informacion deltro del arbol
+	 * @throws se lanza cuando no encuentra la informacion dentro del arbol
 	 */
 	public NodeTree<T> getNode(T info) throws MyException{
 		NodeTree<T> node = seachRecursive(new NodeTree<>(info), root);
@@ -378,7 +378,7 @@ public class SearchBinaryTree <T>{
 	}
 
 	/**
-	 *calacula la profundida de un nodo con una informacion especifoca 
+	 *calacula la profundidad de un nodo con una informacion especifica 
 	 * @param info informacion que debera contener el nodo
 	 * @param base nodo donde se encuentra en el momento (apuntador)
 	 * @return la profundidad donde se encontro la informacion

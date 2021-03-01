@@ -49,14 +49,15 @@ public class TestSimpleList {
 		mySimpleList.addToHead(0);
 		mySimpleList.addToTail(80);
 		System.out.println(mySimpleList.showList());
-		System.out.println("el dato existe?: " +mySimpleList.isExist(10));
+		System.out.println("el dato existe?: SI " + mySimpleList.isExist(10));
 		mySimpleList.deleat(80);
+		System.out.println("se Borra al 80");
 		System.out.println("la cabeza es: " + mySimpleList.getHead());
 		System.out.println("el ultimo dato de la lista es: " + mySimpleList.getDatalast());
 		System.out.println("el tama�o de la lista es: " + mySimpleList.sizeList());
 		System.out.println(mySimpleList.showList());
 		
-		System.out.println("-------------");
+		System.out.println("-------probando el iteardor------");
 		Iterator<Integer> list = mySimpleList.iterator();
 		while(list.hasNext()) {
 			System.out.println(list.next());

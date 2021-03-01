@@ -24,7 +24,14 @@ public class TestStack {
 		System.out.println("la pila tiene " + myStack.sizeStack() + " datos");
 		System.out.println(myStack.isExist(25));
 		System.out.println(myStack.peek());
-		myStack.showStack();
+		System.out.println("----viendo la pila---");
+		System.out.println(myStack.showStack());
+		System.out.println("-------");
+		myStack.pop();
+		System.out.println(myStack.peek());
+		System.out.println("la pila tiene " + myStack.sizeStack() + " datos");
+
+		
 //		System.out.println("el dato recuperado es: " + myStack.pop());
 //		System.out.println("el dato recuperado es: " + myStack.pop());
 //		System.out.println("el dato recuperado es: " + myStack.pop());
