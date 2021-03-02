@@ -33,6 +33,8 @@ public class Test {
 		avlTreeDro.put(85);
 		avlTreeDro.put(125);
 		avlTreeDro.put(175);
+		avlTreeDro.put(100);
+		avlTreeDro.remove(100);
 		avlTreeDro.printTree();
 	}
 
@@ -103,6 +105,6 @@ public class Test {
 		System.out.println((avlTreeDro.getRoot().getInfo() == 'Q')? "OK": "Error");
 		avlTreeDro.printTree();
 
-		System.out.println((avlTreeDro.get('Z') == 'Z')? "El dato existe": "Error");
+		System.out.println((avlTreeDro.get('Z').getInfo() == 'Z')? "El dato existe": "Error");
 	}
 }

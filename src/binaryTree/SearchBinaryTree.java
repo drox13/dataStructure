@@ -496,7 +496,7 @@ public class SearchBinaryTree <T>{
 	}
 
 	/**
-	 * Inprime recursivamente el arbol
+	 * Imprime recursivamente el arbol
 	 * @param actual
 	 * @param count
 	 */

@@ -3,6 +3,10 @@ package avlTree;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import exception.MyException;
+import queue_Stack_SimpleList.MyQueue;
+import queue_Stack_SimpleList.MySimpleLinkendList;
+
 /**
  * Esta clase permite la creacion de arboles binarios de busqueda
  *
@@ -51,24 +55,34 @@ public class AvlTree<T>{
 	 * @param info dato que se desea buscar
 	 * @return el dato encontrado
 	 */
-	public T get(T info) {
+	public MyNodeAvl<T> get(T info) {
 		if (this.root != null) {
 			MyNodeAvl<T> actual = this.root;
 			while (actual != null) {
 				if (!info.equals(actual.info)) {
-					if (comparator.compare(info, actual.info) >= 0) {
+					if (comparator.compare(info, actual.info) > 0) {
 						actual = actual.right;
 					} else {
 						actual = actual.left;
 					}
 				} else {
-					return actual.info;
+					return actual;
 				}
 			}
 			return null;
 		} else {
 			throw new NoSuchElementException(WARNING_NOT_ELEMENTS);
 		}
+	}
+	
+	/**
+	 * Verifica la existencia de dato
+	 * @param info dato a buscar
+	 * @return true si existe de lo contrario, false
+	 */
+	public boolean isExist(T info) {
+	MyNodeAvl<T> find= get(info);
+		return find != null;
 	}
 
 	/**
@@ -99,7 +113,7 @@ public class AvlTree<T>{
 	 * @return rama modificada
 	 */
 	private MyNodeAvl<T> put(T info, MyNodeAvl<T> actual) {
-		if (comparator.compare(info, actual.info) >= 0) {
+		if (comparator.compare(info, actual.info) > 0) {
 			if (actual.right != null) {
 				actual.right = put(info, actual.right);
 				actual = balanceRight(actual);
@@ -110,7 +124,7 @@ public class AvlTree<T>{
 				updateBalance(actual);
 				return actual;
 			}
-		} else {
+		} else if (comparator.compare(info, actual.info) < 0) {
 			if (actual.left != null) {
 				actual.left = put(info, actual.left);
 				actual = balanceLeft(actual);
@@ -122,6 +136,7 @@ public class AvlTree<T>{
 				return actual;
 			}
 		}
+		return actual;
 	}
 
 	/**
@@ -424,5 +439,299 @@ public class AvlTree<T>{
 			System.out.println(actual.getInfo());
 			showTree(actual.left, count+1);
 		}
+	}
+	
+	/**
+	 * permite crear una lista que guarda el recorrido inOrder
+	 * izq-raiz-derecha
+	 * @return una lista Simple con los datos en inOrder
+	 */
+	public MySimpleLinkendList<T> inOrder(){
+		System.out.println("recorrido inOrder");
+		MySimpleLinkendList<T> inOrderList = new MySimpleLinkendList<>();
+		inOrder(inOrderList, root);
+		return inOrderList;
+	}
+
+	/**
+	 * recorre el arbol recursivamente para ir agregando a la lista
+	 * visitar sub arbol izquierdo, visitar el nodo raiz, visitar el subarbol derecho
+	 * @param list Lista en que se va ha guardar el recorrido en inOrder
+	 * @param base Nodo donde se posiciona actualmente
+	 */
+	private void inOrder(MySimpleLinkendList<T> list, MyNodeAvl<T> base) {
+		if(base != null) {
+			inOrder(list, base.left);
+			list.addToTail(base.info);
+			inOrder(list, base.right);
+		}
+	}
+
+	/**
+	 * Permite obtener una lista con el recorrido en preOrder
+	 * raiz-izq-derecho
+	 * @return una lista simple con el recorrido en preOrder
+	 */
+	public MySimpleLinkendList<T> preOrder(){
+		System.out.println("recorrido en preOrder");
+		MySimpleLinkendList<T> preOrderList = new MySimpleLinkendList<>();
+		preOrder(preOrderList, root);
+		return preOrderList;
+	}
+
+	/**
+	 * Recorre el arbol de manera recursiva de manera preOrder
+	 * @param preOrdrList Lista en que se guardara el recorrido
+	 * @param base Nodo en el que va el recorrido
+	 */
+	private void preOrder(MySimpleLinkendList<T> preOrdrList, MyNodeAvl<T> base) {
+		if(base != null) {
+			preOrdrList.addToTail(base.info);
+			preOrder(preOrdrList, base.left);
+			preOrder(preOrdrList, base.right);
+		}
+	}
+
+	/**
+	 * Permite obtener una lista simple con el recorrido en posOrder
+	 * @return una lista simple con el recorrido
+	 */
+	public MySimpleLinkendList<T> posOrder(){
+		System.out.println("Recorrigo en posOrder");
+		MySimpleLinkendList<T> posOrderList = new MySimpleLinkendList<>();
+		posOrder(posOrderList, root);
+		return posOrderList;
+	}
+
+	/**
+	 * recorre el arbol recursivamente en posOrder
+	 * izq- derecha- raiz
+	 * @param posOrderList lista simple que guardara el recorrido
+	 * @param base nodo en el que va el recorrido
+	 */
+	private void posOrder(MySimpleLinkendList<T> posOrderList, MyNodeAvl<T> base) {
+		if(base != null) {
+			posOrder(posOrderList, base.left);
+			posOrder(posOrderList, base.right);
+			posOrderList.addToTail(base.info);
+		}
+	}
+
+	/**
+	 * Permite optener el recorrido en amplitud del arbol
+	 * @return una Lista Simple con los nodos ordenados de acuerdo al recorrido por niveles
+	 */
+	public  MySimpleLinkendList<MyNodeAvl<T>> amplitudeTour(){
+		System.out.println("recorrido en amplitud o anchura");		
+		MyQueue<MyNodeAvl<T>> cola = new MyQueue<>();
+		MySimpleLinkendList<MyNodeAvl<T>> result = new MySimpleLinkendList<>();
+		MyNodeAvl<T> base;
+		if (root != null){
+			cola.putToQueue(root); 
+			while (!cola.isEmtry()){
+				base = cola.getToQueue();
+				result.addToTail(base);
+				if (base.left != null){
+					cola.putToQueue(base.left);
+				}
+				if (base.right!= null){ 
+					cola.putToQueue(base.right);
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Permite Saber si es un nodo hoja
+	 * de no existir la informacion retorna falso
+	 * @param info informacion que se desea berificar
+	 * @return verdadero si es una hoja, de lo contrario false
+	 * @throws MyException se lanza cuando no encuentra el dato
+	 */
+	public boolean isLeaf(T info) throws MyException {
+		MyNodeAvl<T> nodeSearch = get(info);
+		if(nodeSearch == null) {
+			throw new MyException(WARNING_NOT_ELEMENTS);
+		}
+		return nodeSearch.left == null && nodeSearch.right == null;			
+	}
+
+	/**
+	 * Obtiene la altura del arbol
+	 * @return la altura del arbol, tienen en cuenta la raiz
+	 */
+	public int getHeightTree() {
+		return height(root);
+	}
+
+	/**
+	 * Permite calcular la altura  de un nodo
+	 * @param base nodo del que se desea calcular la altura
+	 * @return la altura a la que se encuentra el nodo
+	 */
+	private int height(MyNodeAvl<T> base) {
+		int level = 0; 
+		if(base != null) {
+			level = 1; //para tener en cuenta la raiz
+			if(!isLeaf(base.info)) {
+				if(base.left != null) {
+					level = Math.max(level, height(base.left));
+				}
+				if(base.right != null) {
+					level = Math.max(level, height(base.right));
+				}
+				level++; 
+			}	
+		}
+		return level;
+	}
+
+	/**
+	 * Permite optener la altura de un nodo
+	 * otro metodo
+	 * la altura se refiere a cuantos niveles hay
+	 * se toma la raiz como nivel 1
+	 * @param base nodo del arbol del que se desea conocer la altura
+	 * @return la altura del arbol
+	 */
+	public int heightNode(MyNodeAvl<T> base) {
+		return base == null ? 0:((heightNode(base.right) > heightNode(base.left))?
+				heightNode(base.right) + 1:heightNode( base.left) + 1);
+	}
+
+	/**
+	 * Permite obtener el peso del arbol
+	 * el peso es el numero de nodos que tiene el arbol
+	 * @return el numero de nodos en el arbol
+	 */
+	public int getWeight() {
+		return preOrder().sizeList();
+	}
+
+	/**
+	 * determina la profundidad del nodo
+	 * la profundidad hace referencia a cuantos nodos tiene por encima nodos padre)
+	 * la profundidad del nodo se puede hayar teniendo en cuenta el nivel al que esta el nodo
+	 * @param info informacion de la que deseamos conocer su profundidad
+	 * @return la profundidad a la que esta la informacion, de no existir dicha informacion
+	 * retorna -1
+	 */
+	public int depth(T info) {
+		if(isExist(info)) {
+			return depthRecursive(info, root);
+		}else {
+			return -1;
+		}
+	}
+
+	/**
+	 *calacula la profundidad de un nodo con una informacion especifica 
+	 * @param info informacion que debera contener el nodo
+	 * @param base nodo donde se encuentra en el momento (apuntador)
+	 * @return la profundidad donde se encontro la informacion
+	 */
+	private int depthRecursive(T info, MyNodeAvl<T> base) {
+		int level = 0; // condicion de salida reemplaza al else
+		if(base != null) {
+			int diference = comparator.compare(info, base.info);
+			if(diference < 0) {
+				level = depthRecursive(info, base.left) + 1;
+			}else if(diference > 0) {
+				level = depthRecursive(info, base.right) + 1;
+			}
+		}
+		return level;
+	}
+
+	/**
+	 * obtienen el nodo padre de la indormacion deseada
+	 * @param info inforcacion de la que se desea obtener el padre
+	 * @return el nodo padre de la informacion
+	 * si la informacion no existe reotarna el nodo que seria su padre
+	 * si la informacion es la de la raiz retorna como padre la misma raiz
+	 */
+	public MyNodeAvl<T> getFather(T info) {
+		MyNodeAvl<T> searchData = root;
+		MyNodeAvl<T> father = root;
+		while(searchData != null && comparator.compare(info, searchData.info) != 0) {
+			father = searchData;
+			if(comparator.compare(info, searchData.info) < 0) {
+				searchData = searchData.left;
+			}else if(comparator.compare(info, searchData.info ) > 0){
+				searchData = searchData.right;				
+			}
+		}
+		return father;
+	}
+
+	/**
+	 * Optiene la cantidad de niveles que hay por debajo de un nodo
+	 * @param node nodo del que se desea obtener el numero de niveles que hay debajo
+	 * @return cantidad de niveles por debajo del nodo
+	 */
+	public int quantityLevelDown(MyNodeAvl<T> node) {
+		if(node != null) {
+			if(node.left!= null && node.right!= null) {
+				return quantityLevelDown(node.left) + quantityLevelDown(node.right)+1;
+			}else {
+				return quantityLevelDown(node.left) + quantityLevelDown(node.right);
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * cuenta los nodos que hay apartir de un nodo dado
+	 * cuenta cuantos hijos tiene un nodo + el nodo propio
+	 * @param node nodo desde el que desea contar
+	 * @return el numero de nodos existentes, incluye el nodo inicial
+	 */
+	public int quatityNodes(MyNodeAvl<T> node) {
+		int childs = 1;
+		if(node.left != null) {
+			childs += quatityNodes(node.left);
+		}
+		if(node.right != null) {
+			childs += quatityNodes(node.right);
+		}
+		return childs;
+	}
+
+	/**
+	 * obtiene el numero de hijos que tiene un nodo en especifico
+	 * @param node nodo del que desea contar sus hijos
+	 * @return el numero de nodos hijos
+	 */
+	public int quantityChild(MyNodeAvl<T> node) {
+		return quatityNodes(node) - 1;
+	}
+
+	/**
+	 * Obtiene el numero de hojas en el arbol
+	 * @return el numero de nodos hoja
+	 */
+	public int quantityLeaf() {
+		return quantityLeafRecursive(root);
+	}
+
+	/**
+	 * recorre el arbol recursivamente
+	 * para contar las hojas
+	 * @param base nodo en el que va la recursividad
+	 * @return el numero de hojas
+	 */
+	private int quantityLeafRecursive(MyNodeAvl<T> base) {
+		int contador = 0;
+		if(isLeaf(base.info)) {
+			contador++;
+		}
+		if(base.left != null) {
+			contador += quantityLeafRecursive(base.left);
+		}
+		if(base.right != null) {
+			contador += quantityLeafRecursive(base.right);
+		}
+		return contador;
 	}
 }
