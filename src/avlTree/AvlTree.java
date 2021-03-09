@@ -49,7 +49,6 @@ public class AvlTree<T>{
 		}
 	}
 
-
 	/**
 	 * obtiene el dato que se quiere buscar
 	 * @param info dato que se desea buscar
@@ -59,7 +58,7 @@ public class AvlTree<T>{
 		if (this.root != null) {
 			MyNodeAvl<T> actual = this.root;
 			while (actual != null) {
-				if (!info.equals(actual.info)) {
+				if (comparator.compare(info, actual.info) != 0) {
 					if (comparator.compare(info, actual.info) > 0) {
 						actual = actual.right;
 					} else {
@@ -74,14 +73,14 @@ public class AvlTree<T>{
 			throw new NoSuchElementException(WARNING_NOT_ELEMENTS);
 		}
 	}
-	
+
 	/**
 	 * Verifica la existencia de dato
 	 * @param info dato a buscar
 	 * @return true si existe de lo contrario, false
 	 */
 	public boolean isExist(T info) {
-	MyNodeAvl<T> find= get(info);
+		MyNodeAvl<T> find= get(info);
 		return find != null;
 	}
 
@@ -92,7 +91,8 @@ public class AvlTree<T>{
 	 */
 	public boolean remove(T info) {
 		if (this.root != null) {
-			if (!info.equals(this.root.info)) {
+			int diference = comparator.compare(info, this.root.info);
+			if (diference != 0) {
 				boolean result = remove(info, this.root);
 				balanceRoot();
 				return result;
@@ -275,7 +275,7 @@ public class AvlTree<T>{
 	private boolean remove(T e, MyNodeAvl<T> actual) {
 		if (comparator.compare(e, actual.info) >= 0) {
 			if (actual.right != null) {
-				if (!e.equals(actual.right.info)) {
+				if (comparator.compare(e, actual.right.info) != 0) {
 					boolean result = remove(e, actual.right);
 					actual.right = balanceRight(actual.right);
 					updateBalance(actual);
@@ -288,7 +288,7 @@ public class AvlTree<T>{
 			return false;
 		} else {
 			if (actual.left != null) {
-				if (!e.equals(actual.left.info)) {
+				if (comparator.compare(e, actual.left.info) != 0) {
 					boolean result = remove(e, actual.left);
 					actual.left = balanceLeft(actual.left);
 					updateBalance(actual);
@@ -410,7 +410,7 @@ public class AvlTree<T>{
 			}
 		}
 	}
-	
+
 	/**
 	 * obtiene el nodo raiz
 	 * @return la riz del arbol
@@ -418,8 +418,8 @@ public class AvlTree<T>{
 	public MyNodeAvl<T> getRoot() {
 		return root;
 	}
-	
-	
+
+
 	/**
 	 * Imprime el arbol por consola
 	 */
@@ -427,7 +427,7 @@ public class AvlTree<T>{
 		int count = 0;
 		showTree(root, count);
 	}
-	
+
 	private void showTree(MyNodeAvl<T> actual, int count) {
 		if(actual == null) {
 			return;
@@ -440,7 +440,7 @@ public class AvlTree<T>{
 			showTree(actual.left, count+1);
 		}
 	}
-	
+
 	/**
 	 * permite crear una lista que guarda el recorrido inOrder
 	 * izq-raiz-derecha
@@ -541,7 +541,7 @@ public class AvlTree<T>{
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Permite Saber si es un nodo hoja
 	 * de no existir la informacion retorna falso
@@ -733,5 +733,27 @@ public class AvlTree<T>{
 			contador += quantityLeafRecursive(base.right);
 		}
 		return contador;
+	}
+	/**
+	 * obtiene el valor menor dentro del arbol
+	 * @returnel valor menor
+	 */
+	public T leastValueItem() {
+		MyNodeAvl<T> actualNode = root;
+		while (actualNode.left != null) {
+			actualNode = actualNode.left;
+		}
+		return actualNode.getInfo();
+	}
+	/**
+	 * obtiene el valor menor dentro del arbol
+	 * @return valor mayor
+	 */
+	public Object highestValueItem() {
+		MyNodeAvl<T> actualNode = root;
+		while (actualNode.right != null) {
+			actualNode = actualNode.right;
+		}
+		return actualNode.getInfo();
 	}
 }
